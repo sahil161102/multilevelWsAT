@@ -37,7 +37,7 @@ printf("Enter Burst Time for Process %d -- ", i);
 scanf("%d", &bt[i]);
   flag[i] = 0;
 }
-
+for(int i =0;i<
 
 wt[0] = cwt = 0;
 tat[0] = ctat = bt[0];
