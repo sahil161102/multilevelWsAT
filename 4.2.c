@@ -1,7 +1,8 @@
 #include<stdio.h>
+int p[20],ptype[20],flag[20],at[20], bt[20], wt[20], tat[20], i, k,n,time=0, temp;
 int sjfSort(){
-for(i=0;i<n;i++)
-for(k=i+1;k<n;k++)
+for(i=0;i<n && at[i] && flag[i]!= 1<=time;i++)
+for(k=i+1;k<n && at[i] && flag[i]!= 1<=time;k++)
 if(bt[i]>bt[k])
 {
 temp=bt[i];
@@ -12,9 +13,14 @@ temp=p[i];
 p[i]=p[k];
 p[k]=temp;
 }
+  
+temp=ptype[i];
+ptype[i]=ptype[k];
+ptype[k]=temp;
+}
 return 0;
 }
-int p[20],ptype[20],flag[20],at[20], bt[20], wt[20], tat[20], i, k,n,time=0, temp;
+
 void main()
 {
 float cwt, ctat;
@@ -25,17 +31,13 @@ for(i=0;i<n;i++)
 p[i]=i;
 printf("Enter 0 for system p and 1 for user p --", i);
 scanf("%d", &ptype[i]);
-printf("Enter Burst Time for Process %d -- ", i);
+printf("Enter Arrival Time for Process %d -- ", i);
 scanf("%d", &at[i]);
 printf("Enter Burst Time for Process %d -- ", i);
 scanf("%d", &bt[i]);
+  flag[i] = 0;
 }
-for(i=nSys;i<n;i++)
-{
-p[i]=i;
-printf("Enter Burst Time for user Process %d -- ", i);
-scanf("%d", &bt[i]);
-}
+
 
 wt[0] = cwt = 0;
 tat[0] = ctat = bt[0];
