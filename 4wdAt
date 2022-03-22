@@ -1,0 +1,79 @@
+#include <stdio.h>
+int main(){
+    int n,time=0,temp,sysCount,userCount,min =100,min_id;
+    float ctat,cwt;
+    printf("Enter the no. of elements\n");
+    scanf("%d",&n);
+    int p[8][n];
+    for(int i = 0;i<n;i++){
+        printf("Enter the Arrival time of the process %d\t",i);
+        scanf("%d",&p[1][i]);
+        printf("Enter the Burst time of the process %d\t",i);
+        scanf("%d",&p[2][i]);
+        printf("Enter the type of the process (Enter 1 for system and 0 for user )  %d\t",i);
+        scanf("%d",&p[3][i]);
+        p[0][i] = i; // pid
+        p[4][i] = 0; // RQ status
+        p[5][i] = 1; // flag checking if the process is done
+    }
+    //printf("\n\tPROCESS\t ARRIVAL TIME BURST TIME \t WAITING TIME\tTURNAROUND TIME\n");
+    int N=n;
+    while(N--){
+        sysCount = 0;
+        userCount = 0;
+        for(int i = 0;i<n;i++){
+            if(p[1][i]<=time)
+            p[4][i] = 1;
+            if(p[1][i]<=time && p[3][i]==1 && p[5][i]==1){
+                sysCount++;
+                
+            } 
+            //printf("sys %d",sysCount);
+            if(p[1][i]<=time && p[3][i]==0 && p[5][i]==1){
+                userCount++;
+                //printf("count %d",userCount);
+            }
+        }
+        if(userCount && sysCount ==0){
+            //printf("hello");
+            for(int i = 0;i<n && p[4][i] && p[5][i] ;i++){
+            time += p[2][i];
+            p[6][i] = time - p[1][i]; //TAT
+            p[5][i] = 0;
+           p[7][i]=p[6][i]-p[2][i];
+           printf("\t%d \t %d \t %d \t\t %d \t\t %d \n",p[0][i],p[1][i],p[2][i],p[7][i],p[6][i]);
+            break;
+            }
+        }else if(sysCount){
+            for(int i = 0;i<n;i++){
+                if(min>p[2][i] && p[4][i]==1 && p[5][i]==1 && p[3][i]==1){
+                min = p[2][i];
+                min_id = i;
+                }
+            }
+            //printf("%d",min_id);
+            time += p[2][min_id];
+            p[6][min_id] = time - p[1][min_id]; //TAT
+            p[5][min_id] = 0;
+            p[7][min_id]=p[6][min_id]-p[2][min_id];
+            printf("\t%d \t %d \t %d \t\t %d \t\t %d \n",p[0][min_id],p[1][min_id],p[2][min_id],p[7][min_id],p[6][min_id]);
+            //printf("wecd\n");
+            min =100;
+        } 
+        else{
+            time++;
+            N++;
+        }
+    }
+for(int i=0;i<n;i++)
+{
+p[7][i]=p[6][i]-p[2][i];
+ctat+=p[6][i];
+cwt+=p[7][i];
+}
+printf("\nThe Average Turnaround time is -- %f",ctat/n);
+printf("\nThe Average Waiting time is -- %f",cwt/n);
+//  printf("\n\tPROCESS\t ARRIVAL TIME BURST TIME \t WAITING TIME\tTURNAROUND TIME\n");
+//  for (int i=0;i<n;i++)
+//   printf("\t%d \t %d \t %d \t\t %d \t\t %d \n",p[0][i],p[1][i],p[2][i],p[7][i],p[6][i]);
+  }
