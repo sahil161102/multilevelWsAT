@@ -9,7 +9,7 @@ struct readyQueue{
 int main()
 {
     int n,i_time=-1,time=0,index=0,pCount=0;
-    float cwt=0,ctat=0;
+    float cwt=0,ctat=0,wt = 0, tat =0;
     printf("Enter the number of processes:\t");
     scanf("%d",&n);
     int AT[n],pType[n],BT[n];
@@ -51,9 +51,11 @@ int main()
         if(min_id!=-1){
             pCount++;
             time+=RQ[min_id].bt;
-            ctat=time -RQ[min_id].at;
-            cwt=ctat - RQ[min_id].bt;
-            printf("%d\t\t %d\t\t %d\t\t %f\t\t %f \n",RQ[min_id].pid,RQ[min_id].at,min, cwt,ctat  );
+            tat=time -RQ[min_id].at;
+            wt=tat - RQ[min_id].bt;
+            cwt += wt;
+            ctat += tat;
+            printf("%d\t\t %d\t\t %d\t\t %f\t\t %f \n",RQ[min_id].pid,RQ[min_id].at,min, wt,tat  );
             RQ[min_id].bt=-1;
         }else if(pCount<index){
             int min=999,min_id=-1;
@@ -65,14 +67,18 @@ int main()
             }
             pCount++;
             time+=RQ[min_id].bt;
-            ctat=time - RQ[min_id].at;
-            cwt=ctat-RQ[min_id].bt;
-            printf("%d\t\t %d\t\t %d\t\t %f\t\t %f \n",RQ[min_id].pid,RQ[min_id].at,RQ[min_id].bt, cwt,ctat  );
+            tat=time - RQ[min_id].at;
+            wt=tat-RQ[min_id].bt;
+            cwt += wt;
+            ctat += tat;
+            printf("%d\t\t %d\t\t %d\t\t %f\t\t %f \n",RQ[min_id].pid,RQ[min_id].at,RQ[min_id].bt, wt,tat  );
             RQ[min_id].bt=-1;
         }else{
             time++;
             N++;
         }
     }
+    printf("Average Waiting time = %f",cwt/n);
+    printf("Average TurnAround time = %f",ctat/n);
     return 0;
 }
